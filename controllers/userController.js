@@ -1,5 +1,7 @@
 const { ObjectId } = require('mongoose').Types;
-const User = require('../models/User');
+const { User, Thought } = require('../models');
+
+// POPULATE???
 
 module.exports = {
     // /API/USERS
@@ -45,7 +47,7 @@ module.exports = {
       );
         
       if (!userData) {
-        return res.status(404).json({ message: 'No video with this id!' });
+        return res.status(404).json({ message: 'No user with this id!' });
       }
 
       res.json(userData);
@@ -64,7 +66,8 @@ module.exports = {
         return res.status(404).json({ message: 'No user with this id!' });
       }
 
-      res.json(userData);
+      await Thought.deleteMany({ _id: { $in: userData.thoughts } });
+      res.json({ message: 'User and associated thoughts deleted!' });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -74,11 +77,38 @@ module.exports = {
   // /API/USERS/:USERID/FRIENDS/:FRIENDID
   async addFriend (req, res) {
     try {
-        const friendData = await User.findOneAndUpdate(
-          { _id: req.params.userId },
-          { // $addToSet? 23-Subdoc-Population }
-        )
+      const friendData = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $addToSet: { friends: req.body } },
+        { runValidators: true, new: true },
+      );
+
+      if (!friendData) {
+        return res.status(404).json({ message: 'Could not add friend' });
+      }
+
+      res.json({ message: 'Friend successfully added!' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  async deleteFriend  (req, res) {
+    try {
+      const friendData = await User.findOneAndRemove(
+        { _id: req.params.userId },
+        { $pull: { friends: req.params.friendId } },
+        { runValidators: true, new: true },
+      );
+
+      if (!friendData) {
+        return res.status(404).json({ message: 'Could not delete friend' });
+      }
+
+      res.json({ message: 'Friend successfully deleted!' })
+    } catch (err) {
+      res.status(500).json(err);
     }
   }
-
-}
+   // /API/USERS/:USERID/FRIENDS/:FRIENDID
+};

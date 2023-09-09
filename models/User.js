@@ -13,20 +13,20 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate: {
+      //validate: {
         // validator?? match a valid email
-      },
+      //},
     },
     thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'thought',
+        ref: 'Thought',
       },
     ],
     friends: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'User'
       },
     ],
   },
