@@ -1,17 +1,38 @@
 const connection = require('../config/connection');
 const { User, Thought } = require('../models');
-
+ 
 connection.on('error', (err) => err);
+
+const users = [
+  {
+    username: 'chue',
+    email: 'chue@gmail.com',
+    thoughts: [],
+    friends: [],
+  },
+];
+
+const thoughts = [
+  {
+    thoughtText: 'Random text 1',
+    createdAt: '',
+    username: '',
+    reactions: []
+  }
+];
 
 connection.once('open', async () => {
   console.log('connected');
+
   // Delete the collections if they exist
   let userCheck = await connection.db.listCollections({ name: 'usersDB' }).toArray();
   if (userCheck.length) {
     await connection.dropCollection('usersDB');
   }
 
-  await User.collection.insertMany();
+  await User.collection.insertOne(users);
+
+ // await Thought.collection.insertOne(thoughts);
 
   console.table(users);
   console.info('Seeding complete! 🌱');

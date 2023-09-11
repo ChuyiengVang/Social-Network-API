@@ -6,3 +6,14 @@ const users = [
     friends: [],
   },
 ];
+
+const thoughts = [
+  {
+    thoughtText: 'Random text 1',
+    createdAt: '',
+    username: '',
+    reactions: []
+  }
+];
+
+module.exports = { users, thoughts };
