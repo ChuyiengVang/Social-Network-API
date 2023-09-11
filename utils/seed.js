@@ -3,24 +3,6 @@ const { User, Thought } = require('../models');
  
 connection.on('error', (err) => err);
 
-const users = [
-  {
-    username: 'chue',
-    email: 'chue@gmail.com',
-    thoughts: [],
-    friends: [],
-  },
-];
-
-const thoughts = [
-  {
-    thoughtText: 'Random text 1',
-    createdAt: '',
-    username: '',
-    reactions: []
-  }
-];
-
 connection.once('open', async () => {
   console.log('connected');
 
@@ -30,7 +12,7 @@ connection.once('open', async () => {
     await connection.dropCollection('usersDB');
   }
 
-  await User.collection.insertOne(users);
+  await User.collection.insertOne();
 
  // await Thought.collection.insertOne(thoughts);
 

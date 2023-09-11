@@ -7,7 +7,12 @@ module.exports = {
     // /API/USERS
   async getUsers (req, res) {
     try {
-      const userData = await User.find();
+      const userData = await User.find()
+      // Mongoose automatically looks for the plural, lowercased version of your model name
+      // Targets model Thought not keyword thoughts
+      .populate({path: "thoughts", select: "-__v"})
+      .populate({path: 'friends', select: "-__v"});
+
       res.json(userData);
     } catch (err) {
       res.status(500).json(err);
@@ -16,8 +21,7 @@ module.exports = {
 
   async getSingleUser (req, res) {
     try {
-        const userData = await User.findOne({ _id: req.params.userId })
-          .select('-__v');
+        const userData = await User.findOne({ _id: req.params.userId });
 
         if (!userData) {
           return res.status(404).json({ message: 'No user with that ID' });
