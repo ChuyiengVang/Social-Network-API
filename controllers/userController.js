@@ -9,7 +9,7 @@ module.exports = {
     try {
       const userData = await User.find()
       // Mongoose automatically looks for the plural, lowercased version of your model name
-      // Targets model Thought not keyword thoughts
+      // path targets model "Thought" not keyword "thoughts" in User model
       .populate({path: "thoughts", select: "-__v"})
       .populate({path: 'friends', select: "-__v"});
 
@@ -21,7 +21,9 @@ module.exports = {
 
   async getSingleUser (req, res) {
     try {
-        const userData = await User.findOne({ _id: req.params.userId });
+        const userData = await User.findOne({ _id: req.params.userId })
+        .populate({path: "thoughts", select: "-__v"})
+        .populate({path: 'friends', select: "-__v"});
 
         if (!userData) {
           return res.status(404).json({ message: 'No user with that ID' });
