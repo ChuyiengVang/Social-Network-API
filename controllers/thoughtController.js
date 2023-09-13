@@ -7,17 +7,19 @@ module.exports = {
     // API/thoughts
   async getThoughts (req, res) {
     try {
-        const thoughtData = await Thought.find();
+        const thoughtData = await Thought.find()
+        .populate({path: "reactions", select: "-__v"});
+
         res.json(thoughtData);
     } catch (err) {
         res.status(500).json(err);
     }
   },
 
-  async getSingleUser (req, res) {
+  async getSingleThought (req, res) {
     try {
       const thoughtData = await Thought.findOne({ _id: req.params.thoughtId })
-        .select('__v');
+        .populate({path: "reactions", select: "-__v"});
 
       if (!thoughtData) {
         return res.status(404).json({ message: 'No thought with that ID' });
