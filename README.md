@@ -49,7 +49,7 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
   Link to video walk through
 
-  https://drive.google.com/file/d/1_mY7pBwrtAM2HJV9VxO-w6sH2WJ3LRG8/view
+  [[https://drive.google.com/file/d/1_mY7pBwrtAM2HJV9VxO-w6sH2WJ3LRG8/view](https://drive.google.com/file/d/1_mY7pBwrtAM2HJV9VxO-w6sH2WJ3LRG8/view)](https://drive.google.com/file/d/1_mY7pBwrtAM2HJV9VxO-w6sH2WJ3LRG8/view)
    
   ## Installation
 
